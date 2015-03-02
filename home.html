@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title></title>
+</head>
+
+<body onload="getLocation()">
+
+	<p id="demo"></p>
+<script>
+		var x = document.getElementById("demo");
+		if (window.XMLHttpRequest) {
+			xmlHttp = new XMLHttpRequest();
+		} else if (window.ActiveXObject) {
+			xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+
+		function getLocation() {
+			if (navigator.geolocation) {
+				navigator.geolocation.getCurrentPosition(showPosition);
+			} else {
+				//y.innerHTML = "Geolocation is not supported by this browser.";
+			}
+		}
+
+		function GEOajax(url) {
+			xmlHttp.open("GET", url, true);
+			xmlHttp.onreadystatechange = updatePage;
+			xmlHttp.send(null);
+		}
+
+		function updatePage() {
+			if (xmlHttp.readyState == 4) {
+				var response = xmlHttp.responseText;
+				x.innerHTML = '' + response;
+			}
+		}
+
+		function showPosition(position) {
+
+			GEOajax("sanntid.php?accuracy=" + position.coords.accuracy
+					+ "&latlng=" + position.coords.latitude + ","
+					+ position.coords.longitude);
+
+		}
+	</script>
+
+</body>
+</html>
